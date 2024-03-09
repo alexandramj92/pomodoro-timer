@@ -1,5 +1,6 @@
-import { Box, Paper } from "@mui/material";
+import { Box, IconButton, Paper } from "@mui/material";
 import React, { FunctionComponent, useEffect, useState } from "react";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/700.css";
 
@@ -7,7 +8,6 @@ import { TomatoContainer } from "./TomatoContainer";
 import { TimerControls } from "./TimerControls";
 import { ProductivityToggle } from "./ProductivityToggle";
 import { CustomTypography } from "./CustomTypography";
-
 
 export const TimerDashboard: FunctionComponent = () => {
   const workTimeMin = 25;
@@ -17,7 +17,9 @@ export const TimerDashboard: FunctionComponent = () => {
   const [productivityState, setProductivityState] = useState<"work" | "break">(
     "work"
   );
-  const [initialSeconds, setInitialSeconds] = useState<number>(workTimeMin * 60); 
+  const [initialSeconds, setInitialSeconds] = useState<number>(
+    workTimeMin * 60
+  );
   const [countdown, setCountdown] = useState<number>(initialSeconds);
 
   const handleChangeProductivityState = (
@@ -77,8 +79,8 @@ export const TimerDashboard: FunctionComponent = () => {
   return (
     <Paper
       sx={{
-        maxWidth: '900px',
-        minWidth: '200px',
+        maxWidth: "900px",
+        minWidth: "200px",
         margin: "20px",
         backgroundColor:
           productivityState === "work" ? "#fcb900" : "rgb(56, 133, 138)",
@@ -91,11 +93,7 @@ export const TimerDashboard: FunctionComponent = () => {
         display="flex"
         alignItems="center"
       >
-        <CustomTypography
-          variant="h1"
-          margin='20px'
-          gutterBottom
-        >
+        <CustomTypography variant="h1" margin="20px" gutterBottom>
           Pomodoro Timer
         </CustomTypography>
       </Box>
@@ -118,6 +116,20 @@ export const TimerDashboard: FunctionComponent = () => {
           handlePause={handlePause}
           handleStart={handleStart}
         />
+      </Box>
+      <Box width="100%" textAlign="right">
+        <IconButton
+          onClick={() =>
+            window.open(
+              "https://github.com/alexandramj92/pomodoro-timer",
+              "noopener,noreferrer"
+            )
+          }
+          aria-label="github repo"
+          component="a"
+        >
+          <GitHubIcon sx={{ margin: "10px" }} fontSize="large" />
+        </IconButton>
       </Box>
     </Paper>
   );
