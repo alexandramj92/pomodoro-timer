@@ -1,6 +1,11 @@
-# Getting Started with Create React App
+# Pomodoro Timer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Access the live app [here](https://productivity-pomodoro-dashboard.netlify.app/). A Pomodoro Timer is a time management tool designed to enhance focus and productivity by breaking work into intervals, traditionally 25 minutes in length, separated by short breaks. This method, named after the Italian word for 'tomato' due to its inventor Francesco Cirillo's use of a tomato-shaped kitchen timer, encourages individuals to work with the time they have—rather than against it.
+
+Here's how it works:
+
+- Focus Session: You start a focus session by clicking on the play icon while in "work" mode which starts a 25 minute timer. During this time, you work solely on one task, minimizing all distractions.
+- Short Break: Once the session ends, take a 5-minute break using the break timer which you can access by clicking on the "break" mode above the timer. This is crucial for your brain to rest and recharge, making it ready for the next focus session.
 
 ## Available Scripts
 
