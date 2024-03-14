@@ -1,12 +1,23 @@
 import React from "react";
-import { TimerDashboard } from "./components/TimerDashboard";
-import { Box } from "@mui/material";
+import { Dashboard, Login, Signup } from "./pages";
+import { Box, ThemeProvider, createTheme } from "@mui/material";
+import { Route, Routes } from "react-router-dom";
+import { palette } from "./utils/color";
+import { fontFamily } from "./utils/typography";
+
+const theme = createTheme({ palette, typography: { fontFamily } });
 
 function App() {
   return (
-    <Box width='100%' display='flex' justifyContent='center'>
-      <TimerDashboard />
-    </Box>
+    <ThemeProvider theme={theme}>
+      <Box width="100%" display="flex" justifyContent="center">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </Box>
+    </ThemeProvider>
   );
 }
 

@@ -37,4 +37,13 @@ export const allVariants: Record<string, TypographyStyleOptions> = {
       fontSize: "2rem",
     },
   },
+  p: {
+    fontFamily,
+    fontSize: "1rem",
+    letterSpacing: 0,
+    fontWeight: 500,
+    [`@media (max-width:${breakpoints.sm}px)`]: {
+      fontSize: ".714rem",
+    },
+  },
 };
