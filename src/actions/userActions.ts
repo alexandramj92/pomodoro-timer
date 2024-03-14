@@ -26,6 +26,7 @@ export const loginFailure = (error: string) => ({
   payload: error,
 });
 
+
 export const loginUser = (
   credentials: { email: string; password: string },
   navigate: Function
@@ -34,7 +35,7 @@ export const loginUser = (
     dispatch(loginRequest());
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/login",
+        `${process.env.REACT_APP_BACKEND_URL}/login`,
         credentials,
         {
           withCredentials: true,
@@ -80,7 +81,7 @@ export const verifyCookie = (
     }
     try {
       const { data } = await axios.post(
-        "http://localhost:4000",
+        `${process.env.REACT_APP_BACKEND_URL}`,
         {},
         { withCredentials: true }
       );
@@ -122,7 +123,7 @@ export const signupUser = (
     dispatch(signupRequest());
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/signup",
+        `${process.env.REACT_APP_BACKEND_URL}/signup`,
         userData,
         {
           withCredentials: true,
