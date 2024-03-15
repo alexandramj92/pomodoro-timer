@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "tsc && nodemon index.ts",
-    "build": "tsc && yarn build:react",
-    "build:react": "cd .. && yarn build",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
