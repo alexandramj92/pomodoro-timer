@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "node index.js",
     "dev": "tsc && nodemon index.ts",
     "build": "tsc && yarn build:react",
     "build:react": "cd .. && yarn build",
