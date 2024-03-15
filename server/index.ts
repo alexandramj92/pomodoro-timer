@@ -21,6 +21,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
+      "http://localhost:4000",
       "https://pomo-tasker-405fd1be4689.herokuapp.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -29,6 +30,7 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.json());
+console.log(process.env.NODE_ENV, "process.env.NODE_ENV");
 
 if (process.env.NODE_ENV === "production") {
   // Serve static files from the React app

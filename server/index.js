@@ -23,6 +23,7 @@ if (MONGO_URL) {
 app.use((0, cors_1.default)({
     origin: [
         "http://localhost:3000",
+        "http://localhost:4000",
         "https://pomo-tasker-405fd1be4689.herokuapp.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -30,6 +31,7 @@ app.use((0, cors_1.default)({
 }));
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
+console.log(process.env.NODE_ENV, "process.env.NODE_ENV");
 if (process.env.NODE_ENV === "production") {
     // Serve static files from the React app
     app.use(express_1.default.static(path_1.default.join(__dirname, "..", "build")));
