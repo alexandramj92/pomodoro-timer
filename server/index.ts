@@ -19,7 +19,10 @@ if (MONGO_URL) {
 //Middleware
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://pomo-tasker-405fd1be4689.herokuapp.com"],
+    origin: [
+      "http://localhost:3000",
+      "https://pomo-tasker-405fd1be4689.herokuapp.com",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -27,16 +30,17 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "..", "build")));
+if (process.env.NODE_ENV === "production") {
+  // Serve static files from the React app
+  app.use(express.static(path.join(__dirname, "..", "build")));
+  // The "catchall" handler for any request that doesn't match one above, send back React's index.html file.
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "build", "index.html"));
+  });
+}
 
 // API routes with /api prefix
 app.use("/api", authRoute);
-
-// The "catchall" handler for any request that doesn't match one above, send back React's index.html file.
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "build", "index.html"));
-});
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}!!!`);
