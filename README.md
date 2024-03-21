@@ -1,6 +1,6 @@
 # Pomodoro Timer
 
-Access the live app [here](https://productivity-pomodoro-dashboard.netlify.app/). A Pomodoro Timer is a time management tool designed to enhance focus and productivity by breaking work into intervals, traditionally 25 minutes in length, separated by short breaks. This method, named after the Italian word for 'tomato' due to its inventor Francesco Cirillo's use of a tomato-shaped kitchen timer, encourages individuals to work with the time they have—rather than against it.
+Access the live app [here](https://pomo-tasker-405fd1be4689.herokuapp.com/). You will need to create an account to access the dashboard. A Pomodoro Timer is a time management tool designed to enhance focus and productivity by breaking work into intervals, traditionally 25 minutes in length, separated by short breaks. This method, named after the Italian word for 'tomato' due to its inventor Francesco Cirillo's use of a tomato-shaped kitchen timer, encourages individuals to work with the time they have—rather than against it.
 
 Here's how it works:
 
@@ -43,6 +43,15 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+### `heroku plugins:install heroku-builds`
+### `heroku builds:cache:purge -a pomo-tasker`
+### `git commit --allow-empty -m "Purge build cache"`
+### `git push heroku master:main`
+
+Prepares and deploys the app to heroku.
+
+
 
 ## Learn More
 
