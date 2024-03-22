@@ -26,6 +26,7 @@ export const Signup = () => {
     username: "",
   });
   const { email, password, username } = inputValue;
+
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputValue({
@@ -54,9 +55,15 @@ export const Signup = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <Box left={0} position="absolute" top={0} height={200} marginTop={-9}>
-          <Logo />
-        </Box>
+      <Box
+        left={isMobile ? -15 : 0}
+        position="absolute"
+        top={0}
+        height={200}
+        marginTop={isMobile ? -9 : -7}
+      >
+        <Logo />
+      </Box>
       <Paper
         sx={{
           width: isMobile ? "auto" : "500px",

@@ -44,10 +44,22 @@ export const Login = () => {
   };
 
   return (
-    <Box width='100%' height='100vh' display='flex' alignItems='center' justifyContent='center'>
-       <Box left={0} position="absolute" top={0} height={200} marginTop={-7}>
-          <Logo />
-        </Box>
+    <Box
+      width="100%"
+      height="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Box
+        left={isMobile ? -15 : 0}
+        position="absolute"
+        top={0}
+        height={200}
+        marginTop={isMobile ? -9 : -7}
+      >
+        <Logo />
+      </Box>
       <Paper
         sx={{
           width: isMobile ? "auto" : "500px",
