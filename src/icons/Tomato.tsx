@@ -6,8 +6,8 @@ export const Tomato: FC = () => {
   return (
     <Box
       sx={{
-        height: "400px",
-        width: "400px",
+        height: "300px",
+        width: "300px",
         [`@media (max-width:${breakpoints.sm}px)`]: {
           height: "250px",
           width: "250px",
@@ -23,11 +23,11 @@ export const Tomato: FC = () => {
         viewBox="0 0 51.679 51.679"
         fill="#000000"
       >
-        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
         <g
           id="SVGRepo_tracerCarrier"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         ></g>
         <g id="SVGRepo_iconCarrier">
           <g>

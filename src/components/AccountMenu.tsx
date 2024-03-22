@@ -11,6 +11,8 @@ import Logout from "@mui/icons-material/Logout";
 import { CustomTypography } from "./CustomTypography";
 import { palette } from "../utils/color";
 import { ReactComponent as Logo } from "../icons/Logo.svg";
+import { useMediaQuery } from "@mui/material";
+import { breakpoints } from "../utils/breakpoints";
 
 interface AccountMenuProps {
   username?: string;
@@ -22,6 +24,8 @@ export const AccountMenu: React.FunctionComponent<AccountMenuProps> = ({
   handleLogout,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const isMobile = useMediaQuery(`(max-width:${breakpoints.sm}px)`);
+
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -31,7 +35,7 @@ export const AccountMenu: React.FunctionComponent<AccountMenuProps> = ({
   };
 
   return (
-    <React.Fragment>
+    <Box>
       <Box
         sx={{
           padding: "10px",
@@ -42,13 +46,13 @@ export const AccountMenu: React.FunctionComponent<AccountMenuProps> = ({
           justifyContent: "right",
           position: "relative",
           backgroundColor: palette.custom.white,
-          borderBottom: `2px solid ${palette.custom.black}`
+          borderBottom: `2px solid ${palette.custom.black}`,
         }}
       >
-        <Box left={0} position='absolute' height="200px">
+        <Box left={0} position="absolute" height="200px">
           <Logo />
         </Box>
-        <CustomTypography variant="p" sx={{ minWidth: 100 }}>
+        <CustomTypography variant="p" sx={{ minWidth: isMobile ? 0 : 100 }}>
           {username}
         </CustomTypography>
         <Tooltip title="Account settings">
@@ -60,7 +64,7 @@ export const AccountMenu: React.FunctionComponent<AccountMenuProps> = ({
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>{username?.charAt(0).toUpperCase()}</Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -121,6 +125,6 @@ export const AccountMenu: React.FunctionComponent<AccountMenuProps> = ({
           Logout
         </MenuItem>
       </Menu>
-    </React.Fragment>
+    </Box>
   );
 };

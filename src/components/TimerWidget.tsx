@@ -1,6 +1,5 @@
-import { Box, IconButton, Paper } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import GitHubIcon from "@mui/icons-material/GitHub";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/700.css";
 
@@ -81,8 +80,11 @@ export const TimerWidget: FunctionComponent = () => {
       sx={{
         backgroundColor:
           productivityState === "work" ? "#fcb900" : "rgb(56, 133, 138)",
+        width: "100%",
+        height: "100%",
       }}
-      elevation={3}
+      elevation={0}
+      square
     >
       <Box
         width="100%"
@@ -90,7 +92,7 @@ export const TimerWidget: FunctionComponent = () => {
         display="flex"
         alignItems="center"
       >
-        <CustomTypography variant="h1" margin="20px" gutterBottom>
+        <CustomTypography variant="h2" margin="20px" gutterBottom>
           Pomodoro Timer
         </CustomTypography>
       </Box>
@@ -113,20 +115,6 @@ export const TimerWidget: FunctionComponent = () => {
           handlePause={handlePause}
           handleStart={handleStart}
         />
-      </Box>
-      <Box width="100%" textAlign="right">
-        <IconButton
-          onClick={() =>
-            window.open(
-              "https://github.com/alexandramj92/pomodoro-timer",
-              "noopener,noreferrer"
-            )
-          }
-          aria-label="github repo"
-          component="a"
-        >
-          <GitHubIcon sx={{ margin: "10px" }} fontSize="large" />
-        </IconButton>
       </Box>
     </Paper>
   );

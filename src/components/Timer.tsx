@@ -31,7 +31,7 @@ export const Timer: FunctionComponent<TimerProps> = ({ minutes, seconds }) => {
       display="flex"
       position="absolute"
       sx={{
-        top: "225px",
+        top: "150px",
         [`@media (max-width:${breakpoints.sm}px)`]: {
           top: "125px",
         },

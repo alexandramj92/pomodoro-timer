@@ -37,7 +37,7 @@ export const TomatoContainer: FunctionComponent<TomatoContainerProps> = ({
           color: productivityState === "work" ? "#D13834" : "rgb(57, 112, 151)",
         }}
         thickness={1}
-        size={isMobile ? "300px" : "500px"}
+        size={isMobile ? "300px" : "350px"}
         variant="determinate"
         value={progress}
       />

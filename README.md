@@ -51,6 +51,10 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 Prepares and deploys the app to heroku.
 
+### `heroku logs --tail --app pomo-tasker`
+
+Shows any build or deployment errors.
+
 
 
 ## Learn More
