@@ -21,7 +21,7 @@ export const CompletedTasksWidget: FunctionComponent<
   CompletedTasksWidgetProps
 > = ({ tasks, handleChange }) => {
   return (
-    <Grid minHeight='400px' container padding="20px" direction="column">
+    <Grid minHeight='400px' container padding="30px" direction="column">
       <CustomTypography variant="h2" marginBottom="10px">
         Completed
       </CustomTypography>

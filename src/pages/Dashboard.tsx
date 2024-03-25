@@ -37,24 +37,17 @@ export const Dashboard = () => {
         sortOrder: number;
       }[]
     | undefined
-  >([
-    { id: 0, status: "to-do", content: "finish homework", sortOrder: 0 },
-    { id: 1, status: "to-do", content: "pay bills", sortOrder: 1 },
-    { id: 2, status: "to-do", content: "feed dog", sortOrder: 2 },
-  ]);
+  >([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const taskId = parseInt(event.target.value, 10); // Assuming the value is the task ID
     const currentStatus = tasks?.find((task) => task.id === taskId)?.status;
-    console.log(taskId, currentStatus);
     const newStatus =
       currentStatus === "completed"
         ? "to-do"
         : currentStatus === "to-do" || "in-session"
         ? "completed"
         : currentStatus;
-
-    console.log(newStatus, "newStatus");
 
     if (newStatus)
       setTasks((currentTasks) =>
@@ -101,7 +94,11 @@ export const Dashboard = () => {
         </Grid>
         <Grid container item xs={12} md={4}>
           <Grid item xs={12} container>
-            <TasksWidget tasks={tasks} handleChange={handleChange} />
+            <TasksWidget
+              setTasks={setTasks}
+              tasks={tasks}
+              handleChange={handleChange}
+            />
           </Grid>
           <Grid position="relative" item xs={12} container>
             <CompletedTasksWidget tasks={tasks} handleChange={handleChange} />
