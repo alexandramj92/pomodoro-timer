@@ -26,7 +26,6 @@ export const loginFailure = (error: string) => ({
   payload: error,
 });
 
-
 export const loginUser = (
   credentials: { email: string; password: string },
   navigate: Function
@@ -59,9 +58,12 @@ export const verifyCookieRequest = () => ({
   type: VERIFY_COOKIE_REQUEST,
 });
 
-export const verifyCookieSuccess = (username: string) => ({
+export const verifyCookieSuccess = (user: {
+  username: string;
+  id: string;
+}) => ({
   type: VERIFY_COOKIE_SUCCESS,
-  payload: username,
+  payload: user,
 });
 
 export const verifyCookieFailure = () => ({
@@ -85,9 +87,10 @@ export const verifyCookie = (
         {},
         { withCredentials: true }
       );
-      const { status, user } = data;
+      const { status, user, id } = data;
+   
       if (status) {
-        dispatch(verifyCookieSuccess(user));
+        dispatch(verifyCookieSuccess({ username: user, id }));
       } else {
         dispatch(verifyCookieFailure());
         removeCookie("token", { path: "/" });

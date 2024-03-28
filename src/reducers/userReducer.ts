@@ -15,14 +15,13 @@ export interface UserState {
   message: string | null;
   username?: string;
   error: string | null;
-  user: string | null;
+  user?: { username?: string; id: string };
 }
 
 const initialState: UserState = {
   loading: false,
   message: null,
   error: null,
-  user: null,
 };
 
 export const userReducer = (
@@ -35,11 +34,11 @@ export const userReducer = (
     case SIGNUP_SUCCESS:
       return { ...state, loading: false, user: action.payload, error: null };
     case SIGNUP_FAILURE:
-      return { ...state, loading: false, user: null, error: action.payload };
+      return { ...state, loading: false, user: undefined, error: action.payload };
     case VERIFY_COOKIE_REQUEST:
       return { ...state, loading: true };
     case VERIFY_COOKIE_SUCCESS:
-      return { ...state, loading: false, username: action.payload };
+      return { ...state, loading: false, user: action.payload };
     case VERIFY_COOKIE_FAILURE:
       return { ...state, loading: false, error: "Verification failed" };
     case LOGIN_REQUEST:

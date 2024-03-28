@@ -57,9 +57,10 @@ const Login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         res.cookie("token", token, {
             httpOnly: false,
         });
-        res
-            .status(201)
-            .json({ message: "User logged in successfully", success: true });
+        res.status(201).json({
+            message: "User logged in successfully",
+            success: true,
+        });
         next();
     }
     catch (error) {

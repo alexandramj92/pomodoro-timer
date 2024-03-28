@@ -8,81 +8,53 @@ import {
   TextField,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { palette } from "../utils/color";
 import { CustomTypography } from "./CustomTypography";
+import { useAppDispatch, useAppSelector } from "../utils/hooks";
+import { createTask, deleteTask, updateTask } from "../actions";
+import { RootState } from "../reducers";
 
 interface TasksWidgetProps {
-  tasks:
-    | {
-        id: number;
-        status: "to-do" | "completed" | "in-session";
-        content: string;
-        sortOrder: number;
-      }[]
-    | undefined;
-  setTasks: React.Dispatch<
-    React.SetStateAction<
-      | {
-          id: number;
-          status: "to-do" | "completed" | "in-session";
-          content: string;
-          sortOrder: number;
-        }[]
-      | undefined
-    >
-  >;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const TasksWidget: FunctionComponent<TasksWidgetProps> = ({
-  tasks,
   handleChange,
-  setTasks,
 }) => {
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state: RootState) => state.user);
+  const { tasks } = useAppSelector((state: RootState) => state.task);
   const [taskBeingUpdated, setTaskBeingUpdated] = useState<
     | {
-        id: number;
+        _id: string;
         status: "to-do" | "completed" | "in-session";
         content: string;
-        sortOrder: number;
+        sortOrder?: number;
       }
     | undefined
   >();
 
   const handleAddTask = () => {
-    console.log(tasks, "add task");
-    const newId = tasks?.length && tasks[tasks?.length - 1]?.id + 1;
-    newId
-      ? setTasks(
-          (currentTasks) =>
-            currentTasks && [
-              ...currentTasks,
-              { id: newId, status: "to-do", content: "", sortOrder: 0 },
-            ]
-        )
-      : setTasks([{ id: 0, status: "to-do", content: "", sortOrder: 0 }]);
+    if (user?.id)
+      dispatch(createTask({ status: "to-do", content: "" }, user?.id));
   };
 
   const handleModifyTask =
-    (taskId: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      console.log("modify task", taskBeingUpdated);
-      const taskData = tasks?.find((task) => task.id === taskId);
+    (taskId: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      const taskData = tasks?.find((task) => task._id === taskId);
       setTaskBeingUpdated(
         taskData && { ...taskData, content: event.target.value }
       );
-      console.log(taskData, "task data");
     };
 
   const handleSaveTask = () => {
-    console.log("Save Task");
-    setTasks((currentTasks) =>
-      currentTasks?.map((task) =>
-        task.id === taskBeingUpdated?.id
-          ? { ...task, content: taskBeingUpdated?.content }
-          : task
-      )
-    );
+    if (taskBeingUpdated) {
+      const { _id, ...taskDataWithoutId } = taskBeingUpdated;
+      dispatch(updateTask(taskDataWithoutId, _id));
+    }
+
     setTaskBeingUpdated(undefined);
   };
 
@@ -99,60 +71,68 @@ export const TasksWidget: FunctionComponent<TasksWidgetProps> = ({
 
       {tasks
         ?.filter((task) => task.status === "to-do")
-        ?.map((task) => (
-          <Box
-            key={task.id}
-            sx={{ backgroundColor: palette.custom.white }}
-            minHeight="50px"
-            marginBottom="10px"
-            border={`2px solid ${palette.custom.darkGrey}`}
-            padding="10px"
-            display="flex"
-            alignItems="center"
-            borderRadius="8px"
-          >
-            <Checkbox
-              checked={task.status === "completed" ? true : false}
-              onChange={handleChange}
-              value={task.id}
-              inputProps={{ "aria-label": "controlled" }}
-              color="secondary"
-            />
-            <TextField
-              value={
-                taskBeingUpdated && taskBeingUpdated.id === task.id
-                  ? taskBeingUpdated.content
-                  : task.content
-              }
-              onChange={handleModifyTask(task.id)}
-              onBlur={handleSaveTask}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSaveTask();
-                  const target = e.target as HTMLInputElement;
-
-                  target.blur();
+        ?.map((task) => {
+          return (
+            <Box
+              key={task._id}
+              sx={{ backgroundColor: palette.custom.white }}
+              minHeight="50px"
+              marginBottom="10px"
+              border={`2px solid ${palette.custom.darkGrey}`}
+              padding="10px"
+              display="flex"
+              alignItems="center"
+              borderRadius="8px"
+            >
+              <Checkbox
+                checked={task.status === "completed" ? true : false}
+                onChange={handleChange}
+                value={task._id}
+                inputProps={{ "aria-label": "controlled" }}
+                color="secondary"
+              />
+              <TextField
+                value={
+                  taskBeingUpdated && taskBeingUpdated._id === task._id
+                    ? taskBeingUpdated.content
+                    : task.content
                 }
-              }}
-              multiline
-              sx={{
-                width: "100%",
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "transparent", // Hide default border
+                onChange={handleModifyTask(task._id)}
+                onBlur={handleSaveTask}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSaveTask();
+                    const target = e.target as HTMLInputElement;
+
+                    target.blur();
+                  }
+                }}
+                multiline
+                sx={{
+                  width: "100%",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "transparent", // Hide default border
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "transparent", // Hide border on hover
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "transparent", // Hide border on focus
+                    },
                   },
-                  "&:hover fieldset": {
-                    borderColor: "transparent", // Hide border on hover
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "transparent", // Hide border on focus
-                  },
-                },
-              }}
-            />
-          </Box>
-        ))}
+                }}
+              />
+              <IconButton
+                sx={{ cursor: "pointer" }}
+                onClick={() => dispatch(deleteTask(task._id))}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
+          );
+        })}
     </Grid>
   );
 };

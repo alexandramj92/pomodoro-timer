@@ -8,7 +8,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const AuthRoute_1 = __importDefault(require("./Routes/AuthRoute"));
+const index_1 = __importDefault(require("./Routes/index"));
 const app = (0, express_1.default)();
 require("dotenv").config();
 const { MONGO_URL, PORT } = process.env;
@@ -26,12 +26,11 @@ app.use((0, cors_1.default)({
         "http://localhost:4000",
         "https://pomo-tasker-405fd1be4689.herokuapp.com",
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
     credentials: true,
 }));
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
-console.log(process.env.NODE_ENV, "process.env.NODE_ENV");
 if (process.env.NODE_ENV === "production") {
     // Serve static files from the React app
     app.use(express_1.default.static(path_1.default.join(__dirname, "..", "build")));
@@ -41,7 +40,7 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 // API routes with /api prefix
-app.use("/api", AuthRoute_1.default);
+app.use("/api", index_1.default);
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}!!!`);
 });

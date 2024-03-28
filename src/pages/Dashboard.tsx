@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { Grid, IconButton } from "@mui/material";
@@ -8,7 +8,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import { TimerWidget } from "../components/TimerWidget";
 import { AccountMenu } from "../components/AccountMenu";
 import { useAppDispatch, useAppSelector } from "../utils/hooks";
-import { verifyCookie } from "../actions";
+import { getTasks, updateTask, verifyCookie } from "../actions";
 import { RootState } from "../reducers";
 import { CustomTypography } from "../components/CustomTypography";
 import { TasksWidget } from "../components/TasksWidget";
@@ -18,30 +18,22 @@ import { CompletedTasksWidget } from "../components/CompletedTasksWidget";
 export const Dashboard = () => {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies(["token"]);
-  const { username } = useAppSelector((state: RootState) => state.user);
+  const { user } = useAppSelector((state: RootState) => state.user);
+  const { tasks } = useAppSelector((state: RootState) => state.task);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(verifyCookie(cookies.token, navigate, removeCookie));
-  }, [cookies, navigate, removeCookie, dispatch]);
+    if (user?.id) dispatch(getTasks(user?.id));
+  }, [cookies, navigate, removeCookie, dispatch, user?.id]);
   const handleLogout = () => {
     removeCookie("token", { path: "/" });
     navigate("/signup");
   };
 
-  const [tasks, setTasks] = useState<
-    | {
-        id: number;
-        status: "to-do" | "completed" | "in-session";
-        content: string;
-        sortOrder: number;
-      }[]
-    | undefined
-  >([]);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const taskId = parseInt(event.target.value, 10); // Assuming the value is the task ID
-    const currentStatus = tasks?.find((task) => task.id === taskId)?.status;
+    const taskId = event.target.value;
+    const currentStatus = tasks?.find((task) => task._id === taskId)?.status;
     const newStatus =
       currentStatus === "completed"
         ? "to-do"
@@ -49,18 +41,13 @@ export const Dashboard = () => {
         ? "completed"
         : currentStatus;
 
-    if (newStatus)
-      setTasks((currentTasks) =>
-        currentTasks?.map((task) =>
-          task.id === taskId ? { ...task, status: newStatus } : task
-        )
-      );
+    if (newStatus) dispatch(updateTask({ status: newStatus }, taskId));
   };
 
   return (
     <Grid container style={{ height: "100vh" }} direction="column">
       <Grid item>
-        <AccountMenu handleLogout={handleLogout} username={username} />
+        <AccountMenu handleLogout={handleLogout} username={user?.username} />
       </Grid>
       <Grid
         container
@@ -95,13 +82,13 @@ export const Dashboard = () => {
         <Grid container item xs={12} md={4}>
           <Grid item xs={12} container>
             <TasksWidget
-              setTasks={setTasks}
-              tasks={tasks}
+              // setTasks={setTasks}
+              // tasks={tasks}
               handleChange={handleChange}
             />
           </Grid>
           <Grid position="relative" item xs={12} container>
-            <CompletedTasksWidget tasks={tasks} handleChange={handleChange} />
+            <CompletedTasksWidget handleChange={handleChange} />
             <IconButton
               sx={{ position: "absolute", bottom: "0px", right: "0px" }}
               onClick={() =>

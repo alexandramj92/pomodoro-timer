@@ -17,15 +17,15 @@ export const Signup = async (
     const user = await User.create({ email, password, username, createdAt });
     const token = createSecretToken(user._id.toString());
     res.cookie("token", token, {
-      httpOnly: true, 
-      secure: process.env.NODE_ENV === "production", 
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
     });
     res
       .status(201)
       .json({ message: "User signed in successfully", success: true, user });
   } catch (error) {
     console.error(error);
-    next(error); 
+    next(error);
   }
 };
 
@@ -51,9 +51,10 @@ export const Login = async (
     res.cookie("token", token, {
       httpOnly: false,
     });
-    res
-      .status(201)
-      .json({ message: "User logged in successfully", success: true });
+    res.status(201).json({
+      message: "User logged in successfully",
+      success: true,
+    });
     next();
   } catch (error) {
     console.error(error);

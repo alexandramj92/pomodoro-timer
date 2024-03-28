@@ -16,26 +16,31 @@ exports.userVerification = void 0;
 const UserModel_1 = __importDefault(require("../Models/UserModel"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+require("express");
 dotenv_1.default.config();
-const userVerification = (req, res) => {
-    const token = req.cookies.token;
-    if (!token) {
-        return res.json({ status: false });
+const userVerification = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const token = req.cookies.token;
+        if (!token) {
+            return res
+                .status(401)
+                .json({ status: false, message: "No token provided" });
+        }
+        const decoded = jsonwebtoken_1.default.verify(token, process.env.TOKEN_KEY);
+        const user = yield UserModel_1.default.findById(decoded.id);
+        if (!user) {
+            return res.status(404).json({ status: false, message: "User not found" });
+        }
+        // Attach user information to the request object
+        req.user = user;
+        // Proceed to the next middleware or route handler
+        next();
     }
-    jsonwebtoken_1.default.verify(token, process.env.TOKEN_KEY, (err, decoded) => __awaiter(void 0, void 0, void 0, function* () {
-        const data = decoded;
-        if (err || !data) {
-            return res.json({ status: false });
-        }
-        else {
-            const user = yield UserModel_1.default.findById(data.id);
-            if (user) {
-                return res.json({ status: true, user: user.username });
-            }
-            else {
-                return res.json({ status: false });
-            }
-        }
-    }));
-};
+    catch (error) {
+        // Handle token verification errors (e.g., token expired)
+        return res
+            .status(401)
+            .json({ status: false, message: "Invalid or expired token" });
+    }
+});
 exports.userVerification = userVerification;
