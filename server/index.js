@@ -31,6 +31,8 @@ app.use((0, cors_1.default)({
 }));
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
+// API routes with /api prefix
+app.use("/api", index_1.default);
 if (process.env.NODE_ENV === "production") {
     // Serve static files from the React app
     app.use(express_1.default.static(path_1.default.join(__dirname, "..", "build")));
@@ -39,8 +41,6 @@ if (process.env.NODE_ENV === "production") {
         res.sendFile(path_1.default.join(__dirname, "..", "build", "index.html"));
     });
 }
-// API routes with /api prefix
-app.use("/api", index_1.default);
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}!!!`);
 });
