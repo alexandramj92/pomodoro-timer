@@ -1,14 +1,16 @@
 import React, { FunctionComponent, useState } from "react";
 import {
-  Box,
   Checkbox,
   Grid,
   IconButton,
   Stack,
   TextField,
+  Box,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SimpleBar from "simplebar-react";
+import "simplebar-react/dist/simplebar.min.css";
 
 import { palette } from "../utils/color";
 import { CustomTypography } from "./CustomTypography";
@@ -59,8 +61,14 @@ export const TasksWidget: FunctionComponent<TasksWidgetProps> = ({
   };
 
   return (
-    <Grid minHeight="400px" container padding="30px" direction="column">
-      <Stack direction="row" justifyContent="space-between">
+    <Grid
+      minHeight="200px"
+      maxWidth="100%"
+      container
+      padding="30px"
+      direction="column"
+    >
+      <Stack width="100%" direction="row" justifyContent="space-between">
         <CustomTypography variant="h2" marginBottom="10px">
           Tasks
         </CustomTypography>
@@ -68,71 +76,76 @@ export const TasksWidget: FunctionComponent<TasksWidgetProps> = ({
           <AddIcon />
         </IconButton>
       </Stack>
+      <SimpleBar
+        style={{ maxHeight: 400, maxWidth: "100%", overflowX: "hidden" }}
+      >
+        <Box maxWidth="100%" boxSizing="border-box">
+          {tasks
+            ?.filter((task) => task.status === "to-do")
+            ?.map((task) => {
+              return (
+                <Box
+                  key={task._id}
+                  sx={{ backgroundColor: palette.custom.white }}
+                  minHeight="50px"
+                  marginBottom="10px"
+                  border={`2px solid ${palette.custom.darkGrey}`}
+                  padding="10px"
+                  display="flex"
+                  alignItems="center"
+                  borderRadius="8px"
+                >
+                  <Checkbox
+                    checked={task.status === "completed" ? true : false}
+                    onChange={handleChange}
+                    value={task._id}
+                    inputProps={{ "aria-label": "controlled" }}
+                    color="secondary"
+                  />
+                  <TextField
+                    value={
+                      taskBeingUpdated && taskBeingUpdated._id === task._id
+                        ? taskBeingUpdated.content
+                        : task.content
+                    }
+                    onChange={handleModifyTask(task._id)}
+                    onBlur={handleSaveTask}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSaveTask();
+                        const target = e.target as HTMLInputElement;
 
-      {tasks
-        ?.filter((task) => task.status === "to-do")
-        ?.map((task) => {
-          return (
-            <Box
-              key={task._id}
-              sx={{ backgroundColor: palette.custom.white }}
-              minHeight="50px"
-              marginBottom="10px"
-              border={`2px solid ${palette.custom.darkGrey}`}
-              padding="10px"
-              display="flex"
-              alignItems="center"
-              borderRadius="8px"
-            >
-              <Checkbox
-                checked={task.status === "completed" ? true : false}
-                onChange={handleChange}
-                value={task._id}
-                inputProps={{ "aria-label": "controlled" }}
-                color="secondary"
-              />
-              <TextField
-                value={
-                  taskBeingUpdated && taskBeingUpdated._id === task._id
-                    ? taskBeingUpdated.content
-                    : task.content
-                }
-                onChange={handleModifyTask(task._id)}
-                onBlur={handleSaveTask}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSaveTask();
-                    const target = e.target as HTMLInputElement;
-
-                    target.blur();
-                  }
-                }}
-                multiline
-                sx={{
-                  width: "100%",
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "transparent", // Hide default border
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "transparent", // Hide border on hover
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "transparent", // Hide border on focus
-                    },
-                  },
-                }}
-              />
-              <IconButton
-                sx={{ cursor: "pointer" }}
-                onClick={() => dispatch(deleteTask(task._id))}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Box>
-          );
-        })}
+                        target.blur();
+                      }
+                    }}
+                    multiline
+                    sx={{
+                      width: "100%",
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: "transparent", // Hide default border
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "transparent", // Hide border on hover
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "transparent", // Hide border on focus
+                        },
+                      },
+                    }}
+                  />
+                  <IconButton
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => dispatch(deleteTask(task._id))}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              );
+            })}
+        </Box>
+      </SimpleBar>
     </Grid>
   );
 };
