@@ -57,6 +57,8 @@ const GetTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
         const tasks = yield TaskModel_1.default.find({ userId });
+        // Set Cache-Control header
+        res.set("Cache-Control", "no-cache, no-store, must-revalidate");
         res
             .status(200)
             .json({ message: "Tasks retrieved successfully", success: true, tasks });

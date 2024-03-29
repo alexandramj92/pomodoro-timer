@@ -56,6 +56,9 @@ export const GetTasks = async (req: Request, res: Response) => {
     const { userId } = req.params;
 
     const tasks = await Task.find({ userId });
+
+    // Set Cache-Control header
+    res.set("Cache-Control", "no-cache, no-store, must-revalidate");
     res
       .status(200)
       .json({ message: "Tasks retrieved successfully", success: true, tasks });
