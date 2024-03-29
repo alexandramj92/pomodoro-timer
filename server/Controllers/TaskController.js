@@ -53,18 +53,17 @@ const UpdateTask = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.UpdateTask = UpdateTask;
-const GetTasks = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const GetTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
         const tasks = yield TaskModel_1.default.find({ userId });
         res
             .status(200)
             .json({ message: "Tasks retrieved successfully", success: true, tasks });
-        next();
     }
     catch (error) {
         console.error(error);
-        next(error);
+        res.status(500).json({ message: "An error occurred", success: false });
     }
 });
 exports.GetTasks = GetTasks;
@@ -73,11 +72,15 @@ const DeleteTask = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         const { taskId } = req.params;
         const task = yield TaskModel_1.default.deleteOne({ _id: taskId });
         if (task.deletedCount === 0) {
-            return res.status(404).json({ message: "Task not found", success: false });
+            return res
+                .status(404)
+                .json({ message: "Task not found", success: false });
         }
-        res
-            .status(200)
-            .json({ message: "Task deleted successfully", success: true, _id: taskId });
+        res.status(200).json({
+            message: "Task deleted successfully",
+            success: true,
+            _id: taskId,
+        });
     }
     catch (error) {
         console.error(error);

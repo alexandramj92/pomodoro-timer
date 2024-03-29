@@ -51,11 +51,7 @@ export const UpdateTask = async (
   }
 };
 
-export const GetTasks = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const GetTasks = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
 
@@ -63,10 +59,9 @@ export const GetTasks = async (
     res
       .status(200)
       .json({ message: "Tasks retrieved successfully", success: true, tasks });
-    next();
   } catch (error) {
     console.error(error);
-    next(error);
+    res.status(500).json({ message: "An error occurred", success: false });
   }
 };
 
@@ -81,12 +76,16 @@ export const DeleteTask = async (
     const task = await Task.deleteOne({ _id: taskId });
 
     if (task.deletedCount === 0) {
-      return res.status(404).json({ message: "Task not found", success: false });
+      return res
+        .status(404)
+        .json({ message: "Task not found", success: false });
     }
 
-    res
-      .status(200)
-      .json({ message: "Task deleted successfully", success: true, _id: taskId });
+    res.status(200).json({
+      message: "Task deleted successfully",
+      success: true,
+      _id: taskId,
+    });
   } catch (error) {
     console.error(error);
     next(error);
