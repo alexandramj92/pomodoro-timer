@@ -45,7 +45,7 @@ export const Dashboard = () => {
   };
 
   return (
-    <Grid container style={{ height: "100vh" }} direction="column">
+    <Grid container height='100vh'  direction="column">
       <Grid item>
         <AccountMenu handleLogout={handleLogout} username={user?.username} />
       </Grid>
@@ -79,13 +79,9 @@ export const Dashboard = () => {
         >
           <TimerWidget />
         </Grid>
-        <Grid container item xs={12} md={4}>
+        <Grid height="100%" container item xs={12} md={4}>
           <Grid item xs={12} container>
-            <TasksWidget
-              // setTasks={setTasks}
-              // tasks={tasks}
-              handleChange={handleChange}
-            />
+            <TasksWidget handleChange={handleChange} />
           </Grid>
           <Grid position="relative" item xs={12} container>
             <CompletedTasksWidget handleChange={handleChange} />

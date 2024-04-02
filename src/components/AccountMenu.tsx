@@ -7,6 +7,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
+import PersonIcon from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
 import { CustomTypography } from "./CustomTypography";
 import { palette } from "../utils/color";
@@ -64,7 +65,9 @@ export const AccountMenu: React.FunctionComponent<AccountMenuProps> = ({
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>{username?.charAt(0).toUpperCase()}</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>
+              {username?.charAt(0).toUpperCase()}
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -104,7 +107,10 @@ export const AccountMenu: React.FunctionComponent<AccountMenuProps> = ({
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
+          <ListItemIcon>
+            <PersonIcon fontSize="small" />
+          </ListItemIcon>
+          Profile
         </MenuItem>
 
         <MenuItem onClick={handleClose}>
