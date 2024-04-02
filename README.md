@@ -1,6 +1,6 @@
-# Pomodoro Timer
+# Pomo Tasker
 
-Access the live app [here](https://pomo-tasker-405fd1be4689.herokuapp.com/). You will need to create an account to access the dashboard. A Pomodoro Timer is a time management tool designed to enhance focus and productivity by breaking work into intervals, traditionally 25 minutes in length, separated by short breaks. This method, named after the Italian word for 'tomato' due to its inventor Francesco Cirillo's use of a tomato-shaped kitchen timer, encourages individuals to work with the time they have—rather than against it.
+Access the live app [here](https://pomo-tasker-405fd1be4689.herokuapp.com/). You will need to create an account to access the dashboard. The app currently has three sections: productivity stats which are still in development, a pomodoro timer, and a task section. A Pomodoro Timer is a time management tool designed to enhance focus and productivity by breaking work into intervals, traditionally 25 minutes in length, separated by short breaks. This method, named after the Italian word for 'tomato' due to its inventor Francesco Cirillo's use of a tomato-shaped kitchen timer, encourages individuals to work with the time they have—rather than against it.
 
 Here's how it works:
 
@@ -9,15 +9,25 @@ Here's how it works:
 
 ## Available Scripts
 
-In the project directory, you can run:
+**In the project server directory, you can run:**
 
-### `yarn start`
+### `yarn dev`
 
-Runs the app in the development mode.\
+Runs the node app in the development mode.
+
+**In the project root directory, you can run:**
+
+### `yarn dev`
+
+Runs the React app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
+
+### `yarn install`
+
+Install the project dependencies.
 
 ### `yarn test`
 
@@ -45,8 +55,11 @@ Instead, it will copy all the configuration files and the transitive dependencie
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ### `heroku plugins:install heroku-builds`
+
 ### `heroku builds:cache:purge -a pomo-tasker`
+
 ### `git commit --allow-empty -m "Purge build cache"`
+
 ### `git push heroku master:main`
 
 Prepares and deploys the app to heroku.
@@ -55,10 +68,9 @@ Prepares and deploys the app to heroku.
 
 Shows any build or deployment errors.
 
+## Features in development
 
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Spotify widget that allows user to login to their account and select their playlist of choice. It will then start playing when the timer starts.
+- Additional audio to indicate to the user when their session is over.
+- In session task section that tracks how long the user works on their in session tasks.
+- Productivity stats.
